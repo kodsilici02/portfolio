@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-auto overflow-x-hidden" :class="{ dark: darkMode }">
+  <div class="w-full h-auto overflow-x-hidden body" :class="{ dark: darkMode }">
     <!--<div
       class="w-4/6 sm:w-3/6 md:w-2/6 lg:w-1/4 h-full fixed top-0 left-0 bg-white transition duration-300 ease-in-out z-20 p-3"
       :style="{ transform: sideNavOpen ? 'translateX(0)' : 'translateX(-101%)' }"
@@ -12,11 +12,25 @@
       </video>-->
     </div>
     <!--TopBar-->
-    <div class="w-full transition-opacity duration-300" :class="{ 'opacity-60': sideNavOpen }">
-      <div class="fixed top-0 left-0 w-full flex h-12 justify-between items-center px-3 shadow-lg" style="background-color: rgb(13, 27, 50)">
-        <div @click="toggleSideNav"><font-awesome :icon="['fas', 'bars']" size="xl" /></div>
+    <div class="w-full transition-opacity duration-300">
+      <div
+        class="fixed top-0 left-0 w-full flex justify-between items-center px-8 py-5 shadow-lg"
+        ref="topbar"
+        style="background-color: rgb(13, 27, 50)"
+      >
+        <div><font-awesome class="main-text-color" :icon="['fas', 'circle-user']" size="2xl" /></div>
+        <div class="flex items-center justify-center gap-3">
+          <div class="flex items-center justify-center text-gray-300 gap-3 mr-5">
+            <NuxtLink to="/about"><div class="cursor-pointer hover-link">About</div></NuxtLink>
+            <div class="cursor-pointer hover-link">Projects</div>
+            <div class="cursor-pointer hover-link">Contact</div>
+          </div>
+          <div class="github flex justify-center items-center"><font-awesome class="main-text-color" :icon="['fab', 'github']" size="xl" /></div>
+        </div>
       </div>
-      <div class="text-white relative mt-12" style="z-index: 1"><slot></slot></div>
+      <div class="text-white relative p-5" style="z-index: 1" :style="{ marginTop: marginTop }">
+        <lot></lot>
+      </div>
     </div>
   </div>
 </template>
@@ -29,9 +43,52 @@ const darkMode = ref(true)
 const toggleSideNav = () => {
   sideNavOpen.value = !sideNavOpen.value
 }*/
+const topbar = ref(null)
+const marginTop = ref(null)
+onMounted(async () => {
+  setTimeout(() => {
+    marginTop.value = topbar.value.offsetHeight + 'px'
+  }, 100)
+})
 </script>
 
-<style scoped>
+<style>
+.body {
+  --main-text-color: rgb(54, 224, 148);
+}
+.hover-link {
+  position: relative;
+}
+.hover-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--main-text-color);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+.hover-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+.main-text-color {
+  color: var(--main-text-color);
+}
+.github {
+  width: 80px;
+  height: 38px;
+  border-radius: 5px;
+  border: 1px solid var(--main-text-color);
+  transition: 0.3s ease-in-out;
+}
+.github:hover {
+  box-shadow: 0.3em 0.3em 0 0 var(--main-text-color), inset 0 0 0 0 var(--main-text-color);
+  transform: translate(-5px, -5px);
+}
 .sidenav {
   transition: 0.3s ease;
 }
@@ -40,10 +97,8 @@ const toggleSideNav = () => {
   width: 0px;
 }
 </style>
+
 <style>
-body {
-  background-color: rgb(255, 255, 255);
-}
 ::-webkit-scrollbar {
   width: 5px;
 }
