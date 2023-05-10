@@ -74,13 +74,13 @@
               duration: 500
             }
           }"
-          :delay="900"
+          :delay="1000"
         >
-          <font-awesome class="main-text-color" :icon="['fab', 'github']" size="xl" />
+          <div @click="handleClick"><DefaultButton></DefaultButton></div>
         </div>
       </div>
     </div>
-    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap gap-3 main-box items-center">
+    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap gap-3 main-box items-start" id="about">
       <div class="w-full md:w-3/5">
         <div class="w-full flex items-center flex-shrink flex-wrap gap-3">
           <div v-motion-slide-visible-bottom class="text-4xl main-text-color font-yolk">About Me</div>
@@ -110,9 +110,9 @@
           </div>
         </div>
       </div>
-      <div class="flex-grow h-28 bg-white mt-20"></div>
+      <div v-motion-slide-visible-right class="w-full md:w-auto flex-grow h-28 bg-white mt-20"></div>
     </div>
-    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap gap-3 main-box content-start">
+    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap gap-3 main-box content-start" id="packs">
       <div class="w-full">
         <div class="w-full flex items-center flex-shrink flex-wrap gap-3">
           <div v-motion-slide-visible-bottom class="text-4xl main-text-color font-yolk">Our Packs</div>
@@ -177,11 +177,29 @@ const enter = {
     duration: 500
   }
 }
+const emits = defineEmits(['scrollData'])
+onMounted(() => {
+  let about = document.getElementById('about')
+  let aboutTop = about.getBoundingClientRect().top
+  let packs = document.getElementById('packs')
+  let packsTop = packs.getBoundingClientRect().top
+  let data = [
+    {
+      name: 'About',
+      top: aboutTop
+    },
+    {
+      name: 'Packs',
+      top: packsTop
+    }
+  ]
+  emits('scrollData', data)
+})
 </script>
 
 <style scoped>
 .main-box {
-  height: calc(100vh - 78px);
+  min-height: calc(100vh - 78px);
 }
 .packs {
   position: relative;
