@@ -32,7 +32,7 @@
             }
           }"
         >
-          <NuxtLink to="/"><font-awesome class="main-text-color icon-link" :icon="['fas', 'circle-user']" size="2xl" /></NuxtLink>
+          <NuxtLink to="/#about"><font-awesome class="main-text-color icon-link" :icon="['fas', 'circle-user']" size="2xl" /></NuxtLink>
         </div>
         <div class="flex items-center justify-center gap-3">
           <div class="flex items-center justify-center text-gray-300 gap-3 mr-5">
@@ -54,7 +54,7 @@
               }"
               :delay="100 * link.id"
             >
-              <NuxtLink :to="link.to">{{ link.label }}</NuxtLink>
+              <div @click="emitEvent(link.label)">{{ link.label }}</div>
             </div>
           </div>
           <a
@@ -74,19 +74,32 @@
             }"
             :delay="500"
           >
-            <div class="box-shadow-button flex justify-center items-center">
-              <font-awesome class="main-text-color" :icon="['fab', 'github']" size="xl" />
-            </div>
+            <DefaultButton></DefaultButton>
           </a>
         </div>
       </div>
       <!--main content-->
-      <div class="text-white relative p-5" style="z-index: 1" :style="{ marginTop: 78 + 'px' }" v-on:enter="scrollTop">
-        <slot></slot>
+      <div class="text-white relative p-5" style="z-index: 1" :style="{ marginTop: 78 + 'px' }">
+        <slot @button="button"></slot>
       </div>
     </div>
     <!--SideBar left-->
-    <div class="fixed top-0 left-0 hidden lg:flex lg:flex-col lg:w-2/12 h-full justify-end items-center gap-3 z-10">
+    <div
+      v-motion
+      :initial="{
+        opacity: 0,
+        x: -50
+      }"
+      :enter="{
+        opacity: 1,
+        x: 0,
+        transition: {
+          duration: 500
+        }
+      }"
+      :delay="1100"
+      class="fixed top-0 left-0 hidden lg:flex lg:flex-col lg:w-2/12 h-full justify-end items-center gap-3 z-10"
+    >
       <div>
         <font-awesome
           class="text-white cursor-pointer icons-hover transition ease-in-out duration-300"
@@ -131,14 +144,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useMotion } from '@vueuse/motion'
-const links = ref([
-  { id: 1, label: 'About', to: '/about' },
-  { id: 2, label: 'Projects', to: '/projects' },
-  { id: 3, label: 'Contact', to: '/contact' }
-])
-const scrollTop = () => {
-  console.log('a')
+const emits = defineEmits(['scrollToLayout'])
+const emitEvent = label => {
+  emits('scrollToLayout', label)
 }
+const links = ref([
+  { id: 1, label: 'About' },
+  { id: 2, label: 'Packs' },
+  { id: 3, label: 'Contact' }
+])
 const downloaded = ref(false)
 const darkMode = ref(true)
 /*const sideNavOpen = ref(false)
@@ -202,17 +216,7 @@ html {
 .main-text-color {
   color: var(--main-text-color);
 }
-.box-shadow-button {
-  width: 80px;
-  height: 38px;
-  border-radius: 5px;
-  border: 1px solid var(--main-text-color);
-  transition: 0.3s ease-in-out;
-}
-.box-shadow-button:hover {
-  box-shadow: 0.3em 0.3em 0 0 var(--main-text-color), inset 0 0 0 0 var(--main-text-color);
-  transform: translate(-5px, -5px);
-}
+
 ::-webkit-scrollbar {
   width: 5px;
 }
