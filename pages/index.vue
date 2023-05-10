@@ -1,46 +1,67 @@
 <template>
   <div class="w-full h-auto flex flex-wrap justify-center body overflow-hidden">
-    <div class="w-11/12 lg:w-8/12 flex flex-wrap my-20 gap-y-7">
-      <div class="w-full text-xl main-text-color my-element" v-motion :initial="initial" :enter="enter" :delay="600">Welcome to my portfolio</div>
-      <div
-        class="w-full text-4xl font-yolk"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 30
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 500
-          }
-        }"
-        :delay="700"
-      >
-        Yazılım Panteri
-      </div>
-      <div
-        class="font-yolk text-4xl w-full"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 30
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 500
-          }
-        }"
-        :delay="800"
-      >
-        <div class="quote-1 text-4xl py-2">The Right Programmer for Your Own WebSite</div>
-      </div>
-      <div class="w-full">
+    <div class="w-11/12 lg:w-8/12 flex flex-wrap gap-y-7 main-box items-center">
+      <div class="flex flex-wrap gap-y-7 content-center">
+        <div class="w-full text-xl main-text-color my-element" v-motion :initial="initial" :enter="enter" :delay="600">Welcome to my portfolio</div>
         <div
-          class="w-full lg:w-3/6 font-code-next text-lg"
+          class="w-full text-4xl font-yolk"
+          v-motion
+          :initial="{
+            opacity: 0,
+            y: 30
+          }"
+          :enter="{
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 500
+            }
+          }"
+          :delay="700"
+        >
+          Yazılım Panteri
+        </div>
+        <div
+          class="font-yolk text-4xl w-full"
+          v-motion
+          :initial="{
+            opacity: 0,
+            y: 30
+          }"
+          :enter="{
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 500
+            }
+          }"
+          :delay="800"
+        >
+          <div class="quote-1 text-4xl py-2">The Right Programmer for Your Own WebSite</div>
+        </div>
+        <div class="w-full">
+          <div
+            class="w-full lg:w-3/6 font-code-next text-lg"
+            v-motion
+            :initial="{
+              opacity: 0,
+              y: 30
+            }"
+            :enter="{
+              opacity: 1,
+              y: 0,
+              transition: {
+                duration: 500
+              }
+            }"
+            :delay="900"
+          >
+            I am a young software developer who designs simple but effective websites. While making a design, I am a person who constantly learns new
+            things and tries to be characteristic.
+          </div>
+        </div>
+        <div
+          class="box-shadow-button flex justify-center items-center"
           v-motion
           :initial="{
             opacity: 0,
@@ -55,30 +76,11 @@
           }"
           :delay="900"
         >
-          I am a young software developer who designs simple but effective websites. While making a design, I am a person who constantly learns new
-          things and tries to be characteristic.
+          <font-awesome class="main-text-color" :icon="['fab', 'github']" size="xl" />
         </div>
       </div>
-      <div
-        class="box-shadow-button flex justify-center items-center"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 30
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 500
-          }
-        }"
-        :delay="900"
-      >
-        <font-awesome class="main-text-color" :icon="['fab', 'github']" size="xl" />
-      </div>
     </div>
-    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap mt-28 gap-3">
+    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap gap-3 main-box items-center">
       <div class="w-full md:w-3/5">
         <div class="w-full flex items-center flex-shrink flex-wrap gap-3">
           <div v-motion-slide-visible-bottom class="text-4xl main-text-color font-yolk">About Me</div>
@@ -110,14 +112,14 @@
       </div>
       <div class="flex-grow h-28 bg-white mt-20"></div>
     </div>
-    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap mt-28 gap-3">
+    <div class="flex flex-col md:flex-row w-11/12 lg:w-8/12 flex-wrap gap-3 main-box content-start">
       <div class="w-full">
         <div class="w-full flex items-center flex-shrink flex-wrap gap-3">
           <div v-motion-slide-visible-bottom class="text-4xl main-text-color font-yolk">Our Packs</div>
           <div v-motion-slide-visible-bottom class="flex-grow mr-5"><div class="w-full border-b-2 border-slate-500"></div></div>
         </div>
       </div>
-      <div class="w-full flex flex-wrap gap-3">
+      <div v-motion-slide-visible-bottom class="w-full flex flex-wrap gap-3 mt-10">
         <div class="w-full sm:w-1/5 h-fit flex flex-wrap gap-x-3 content-start packs" ref="packs">
           <div v-for="(page, index) in pages" class="sm:w-full h-10 cursor-pointer items-center flex" @click="switchPage(index)">{{ page.text }}</div>
         </div>
@@ -133,20 +135,25 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import PageOne from '@/components/PageOne.vue'
-import PageTwo from '@/components/PageTwo.vue'
+import Basic from '@/components/Basic.vue'
+import Standard from '@/components/Standard.vue'
+import Premium from '@/components/Premium.vue'
 const pages = [
   {
-    component: PageOne,
-    text: 'page one'
+    component: Basic,
+    text: 'Basic'
   },
   {
-    component: PageTwo,
-    text: 'page two'
+    component: Standard,
+    text: 'Standard'
+  },
+  {
+    component: Premium,
+    text: 'Premium'
   }
 ]
 const packs = ref(null)
-var selectedComponent = ref(PageOne)
+var selectedComponent = ref(Basic)
 const switchPage = index => {
   selectedComponent.value = pages[index].component
   const element = event.target
@@ -173,6 +180,9 @@ const enter = {
 </script>
 
 <style scoped>
+.main-box {
+  height: calc(100vh - 78px);
+}
 .packs {
   position: relative;
 }
@@ -186,7 +196,7 @@ const enter = {
   transform: translateX(-10px);
 }
 .packs::after {
-  transition: all 0.3s;
+  transition: all 0.5s;
   content: '';
   position: absolute;
   width: 2px;

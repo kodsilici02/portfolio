@@ -85,6 +85,26 @@
         <slot></slot>
       </div>
     </div>
+    <!--SideBar left-->
+    <div class="fixed top-0 left-0 hidden lg:flex lg:flex-col lg:w-2/12 h-full justify-end items-center gap-3 z-10">
+      <div>
+        <font-awesome
+          class="text-white cursor-pointer icons-hover transition ease-in-out duration-300"
+          size="xl"
+          :icon="['fab', 'github']"
+        ></font-awesome>
+      </div>
+      <div>
+        <font-awesome
+          class="text-white cursor-pointer icons-hover transition ease-in-out duration-300"
+          size="xl"
+          :icon="['fab', 'twitter']"
+        ></font-awesome>
+      </div>
+      <div class="h-1/6 border-r-2 border-gray-50 w-0"></div>
+    </div>
+    <!--SideBar right-->
+    <div class="fixed top-0 right-0 hidden lg:flex lg:w-2/12 h-full"></div>
   </div>
 
   <div
@@ -104,7 +124,7 @@
     }"
     :delay="1500"
   >
-    <div class="text-6xl text-white font-bold">Yükleniyor</div>
+    <div class="text-6xl text-white font-bold">Loading</div>
   </div>
 </template>
 
@@ -140,8 +160,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.body {
-  --main-text-color: rgb(54, 224, 148);
+.icons-hover:hover {
+  transform: translateY(-5px);
+  color: var(--main-text-color);
 }
 .hover-link {
   position: relative;
@@ -162,9 +183,6 @@ onMounted(async () => {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
-.main-text-color {
-  color: var(--main-text-color);
-}
 .sidenav {
   transition: 0.3s ease;
 }
@@ -177,6 +195,12 @@ onMounted(async () => {
 <style>
 html {
   background-color: rgb(13, 27, 50);
+}
+.body {
+  --main-text-color: rgb(54, 224, 148);
+}
+.main-text-color {
+  color: var(--main-text-color);
 }
 .box-shadow-button {
   width: 80px;
