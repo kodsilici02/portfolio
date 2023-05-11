@@ -1,6 +1,6 @@
 <template>
   <div class="box-shadow-button cursor-pointer flex justify-center items-center">
-    <font-awesome class="main-text-color" :icon="['fab', 'github']" size="xl" />
+    <slot></slot>
   </div>
 </template>
 <style scoped>
