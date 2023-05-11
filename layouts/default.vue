@@ -6,7 +6,7 @@
     ></div>
     <div v-if="sideNavOpen" class="w-2/6 sm:w-3/6 md:w-4/6 lg:w-3/4 h-full fixed top-0 right-0 z-20" @click="toggleSideNav"></div>-->
     <!--Background-->
-    <div class="w-full h-full fixed top-0 left-0" style="z-index: -1; background-color: rgb(10, 25, 47)">
+    <div class="w-full h-full fixed top-0 left-0" style="z-index: -2; background-color: rgb(10, 25, 47)">
       <!--<video autoplay muted loop class="w-full h-full">
         <source src="../assets/video2.mp4" />
       </video>-->
@@ -138,11 +138,10 @@
       <div class="h-1/6 border-r-2 border-gray-50 w-0"></div>
     </div>
   </div>
-
   <div
     v-else
     class="fixed top-0 left-0 h-full w-full body flex items-center justify-center"
-    style="background-color: rgb(13, 27, 50)"
+    style="z-index: 0"
     :class="{ dark: darkMode }"
     v-motion
     :initial="{
@@ -158,11 +157,42 @@
   >
     <div class="text-6xl text-white font-bold">Loading</div>
   </div>
+  <!--Background2-->
+  <div class="fixed top-0 left-0 w-full h-full flex justify-center items-center" style="z-index: -1">
+    <div class="rounded-[50%] circle" ref="circle"></div>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useMotion } from '@vueuse/motion'
+const circle = ref(null)
+
+const onMouseMove = event => {
+  if (circle.value != null) {
+    const circleElement = circle.value
+    const { width, height } = circleElement.getBoundingClientRect()
+    const cx = circleElement.offsetLeft + width / 2
+    const cy = circleElement.offsetTop + height / 2
+    const dx = event.clientX - cx
+    const dy = event.clientY - cy
+    const distance = Math.sqrt(dx ** 2 + dy ** 2)
+    const maxDistance = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2)
+    const opacity = Math.max(0.4, Math.min(0.8, 0.8 - distance / maxDistance))
+    const x = dx
+    const y = dy
+    circleElement.style.transform = `translate(${x}px, ${y}px)`
+    circleElement.style.opacity = opacity
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('mousemove', onMouseMove)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', onMouseMove)
+})
 function redirectToGmail() {
   const email = 'yazilimpanteri@gmail.com' // Replace with the email address you want to send the email to
   const url = `mailto:${email}`
@@ -199,6 +229,11 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.circle {
+  width: 900px;
+  height: 900px;
+  background-image: radial-gradient(ellipse at center, rgba(54, 224, 148, 0.7) 0%, rgba(255, 255, 255, 0) 50%);
+}
 .email {
   transition: color 0.3s ease, bottom 0.3s ease;
   transform: rotate(90deg);
