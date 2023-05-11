@@ -14,7 +14,7 @@
     <!--TopBar-->
     <div class="w-full transition-opacity duration-300">
       <div
-        class="fixed top-0 left-0 w-full flex justify-between items-center px-8 py-5 shadow-lg z-10"
+        class="fixed top-0 left-0 w-full flex justify-between items-center px-8 py-5 shadow-lg z-20"
         ref="topbar"
         style="background-color: rgb(13, 27, 50)"
       >
@@ -74,7 +74,7 @@
             }"
             :delay="500"
           >
-            <DefaultButton></DefaultButton>
+            <DefaultButton><font-awesome class="main-text-color" :icon="['fab', 'github']" size="xl" /></DefaultButton>
           </a>
         </div>
       </div>
@@ -117,7 +117,26 @@
       <div class="h-1/6 border-r-2 border-gray-50 w-0"></div>
     </div>
     <!--SideBar right-->
-    <div class="fixed top-0 right-0 hidden lg:flex lg:w-2/12 h-full"></div>
+    <div
+      v-motion
+      :initial="{
+        opacity: 0,
+        x: 50
+      }"
+      :enter="{
+        opacity: 1,
+        x: 0,
+        transition: {
+          duration: 500
+        }
+      }"
+      :delay="1100"
+      class="fixed top-0 right-0 hidden lg:flex lg:flex-col lg:w-2/12 h-full justify-end items-center gap-15 z-10"
+    >
+      <div class="text-white mb-24 ml-1 email cursor-pointer" @click="redirectToGmail">yazilimpanteri@gmail.com</div>
+
+      <div class="h-1/6 border-r-2 border-gray-50 w-0"></div>
+    </div>
   </div>
 
   <div
@@ -144,6 +163,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useMotion } from '@vueuse/motion'
+function redirectToGmail() {
+  const email = 'yazilimpanteri@gmail.com' // Replace with the email address you want to send the email to
+  const url = `mailto:${email}`
+  window.location.href = url
+}
 const emits = defineEmits(['scrollToLayout'])
 const emitEvent = label => {
   emits('scrollToLayout', label)
@@ -151,7 +175,8 @@ const emitEvent = label => {
 const links = ref([
   { id: 1, label: 'About' },
   { id: 2, label: 'Packs' },
-  { id: 3, label: 'Contact' }
+  { id: 3, label: 'Projects' },
+  { id: 4, label: 'Contact' }
 ])
 const downloaded = ref(false)
 const darkMode = ref(true)
@@ -174,6 +199,18 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.email {
+  transition: color 0.3s ease, bottom 0.3s ease;
+  transform: rotate(90deg);
+  position: relative;
+  bottom: 0px;
+}
+
+.email:hover {
+  bottom: 10px; /* add bottom property to lift the element by 10px */
+  color: var(--main-text-color);
+}
+
 .icons-hover:hover {
   transform: translateY(-5px);
   color: var(--main-text-color);

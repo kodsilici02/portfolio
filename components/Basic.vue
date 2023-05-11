@@ -24,10 +24,6 @@
         <font-awesome class="main-text-color w-fit" :icon="['fas', 'check']" />
         Interactive Elements
       </div>
-      <div class="flex items-center gap-2">
-        <font-awesome class="main-text-color w-fit" :icon="['fas', 'check']" />
-        Source Code
-      </div>
     </div>
   </div>
 </template>
@@ -39,7 +35,14 @@
   position: relative;
   z-index: 2;
 }
-
+.font-yolk {
+  font-family: 'TPF Yolk Bold', sans-serif;
+}
+.font-code-next {
+  font-family: 'Code Next Book', sans-serif;
+}
+</style>
+<style>
 .price {
   height: fit-content;
   font-weight: bold;
@@ -60,11 +63,5 @@
   to {
     background-position: 0 0;
   }
-}
-.font-yolk {
-  font-family: 'TPF Yolk Bold', sans-serif;
-}
-.font-code-next {
-  font-family: 'Code Next Book', sans-serif;
 }
 </style>
