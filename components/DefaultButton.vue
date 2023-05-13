@@ -8,7 +8,7 @@
   width: 80px;
   height: 38px;
   border-radius: 5px;
-  border: 1px solid var(--main-text-color);
+  border: 2px solid var(--main-text-color);
   transition: 0.3s ease-in-out;
 }
 .box-shadow-button:hover {

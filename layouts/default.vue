@@ -6,7 +6,7 @@
     ></div>
     <div v-if="sideNavOpen" class="w-2/6 sm:w-3/6 md:w-4/6 lg:w-3/4 h-full fixed top-0 right-0 z-20" @click="toggleSideNav"></div>-->
     <!--Background-->
-    <div class="w-full h-full fixed top-0 left-0" style="z-index: -2; background-color: rgb(10, 25, 47)">
+    <div class="w-full h-full fixed top-0 left-0 background" style="z-index: -2">
       <!--<video autoplay muted loop class="w-full h-full">
         <source src="../assets/video2.mp4" />
       </video>-->
@@ -14,7 +14,7 @@
     <!--TopBar-->
     <div class="w-full transition-opacity duration-300">
       <div
-        class="fixed top-0 left-0 w-full flex justify-between items-center px-8 py-5 shadow-lg z-20"
+        class="fixed top-0 left-0 w-full flex justify-between items-center px-8 py-5 shadow-lg z-20 topbar-border-highlight"
         ref="topbar"
         style="background-color: rgb(13, 27, 50)"
       >
@@ -32,7 +32,7 @@
             }
           }"
         >
-          <NuxtLink to="/#about"><font-awesome class="main-text-color icon-link" :icon="['fas', 'circle-user']" size="2xl" /></NuxtLink>
+          <NuxtLink to="/"><font-awesome class="main-text-color icon-link" :icon="['fas', 'circle-user']" size="2xl" /></NuxtLink>
         </div>
         <div class="flex items-center justify-center gap-3">
           <div class="flex items-center justify-center text-gray-300 gap-3 mr-5">
@@ -158,7 +158,7 @@
     <div class="text-6xl text-white font-bold">Loading</div>
   </div>
   <!--Background2-->
-  <div class="fixed top-0 left-0 w-full h-full flex justify-center items-center" style="z-index: -1">
+  <div class="fixed top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none background" style="z-index: -1">
     <div class="rounded-[50%] circle" ref="circle"></div>
   </div>
 </template>
@@ -166,8 +166,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useMotion } from '@vueuse/motion'
-const circle = ref(null)
 
+const circle = ref(null)
 const onMouseMove = event => {
   if (circle.value != null) {
     const circleElement = circle.value
@@ -185,12 +185,25 @@ const onMouseMove = event => {
     circleElement.style.opacity = opacity
   }
 }
+function resizeCircle() {
+  if (window.innerWidth < 900) {
+    let lenght = window.innerWidth
+    circle.value.style.width = lenght + 'px'
+    circle.value.style.height = lenght + 'px'
+  } else {
+    circle.value.style.width = 900 + 'px'
+    circle.value.style.height = 900 + 'px'
+  }
+}
 
 onMounted(() => {
+  resizeCircle()
   window.addEventListener('mousemove', onMouseMove)
+  window.addEventListener('resize', resizeCircle)
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', resizeCircle)
   window.removeEventListener('mousemove', onMouseMove)
 })
 function redirectToGmail() {
@@ -230,6 +243,7 @@ onMounted(async () => {
 
 <style scoped>
 .circle {
+  transition: all 0.3s ease-out;
   width: 900px;
   height: 900px;
   background-image: radial-gradient(ellipse at center, rgba(54, 224, 148, 0.7) 0%, rgba(255, 255, 255, 0) 50%);
@@ -276,10 +290,20 @@ onMounted(async () => {
   overflow: hidden;
   width: 0px;
 }
+.background {
+  background: linear-gradient(90deg, rgba(10, 25, 47, 1) 0%, rgb(8, 47, 106) 100%);
+}
 </style>
 
 <style>
-html {
+.border-highlight {
+  border: 3px solid rgb(10, 25, 47);
+}
+.topbar-border-highlight {
+  border-bottom: 3px solid rgb(10, 25, 47);
+}
+
+body {
   background-color: rgb(13, 27, 50);
 }
 .body {
